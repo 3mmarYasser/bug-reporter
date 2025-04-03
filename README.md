@@ -15,7 +15,7 @@ A Chrome extension that helps users report broken buttons and links on any webpa
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/3mmar3mmarYasser/bug-reporter.git
+   git clone https://github.com/3mmarYasser/bug-reporter.git
    cd bug-reporter
    ```
 
