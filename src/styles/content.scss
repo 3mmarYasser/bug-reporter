@@ -1,0 +1,272 @@
+@use 'tailwind' as *;
+
+@layer components {
+  .bug-reporter-highlight {
+    @apply ring-2 ring-indigo-500 ring-offset-2 transition-all duration-300;
+    animation: pulse 2s infinite;
+  }
+
+  .bug-reporter-highlight:hover {
+    @apply ring-purple-500 cursor-pointer;
+    animation: none;
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+  }
+
+  .bug-reporter-flag-icon {
+    @apply fixed bg-gradient-to-br from-indigo-600 to-purple-600 rounded-full w-14 h-14 flex items-center justify-center cursor-pointer shadow-lg z-50 transition-all duration-300;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+    pointer-events: auto !important; 
+  }
+
+  .bug-reporter-flag-icon.visible {
+    pointer-events: auto;
+    opacity: 1;
+    display: block;
+    transition: opacity 0.3s ease;
+  }
+
+  .bug-reporter-flag-icon.hidden {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .bug-reporter-flag-icon::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #6366f1, #a855f7, #6366f1);
+    z-index: -1;
+    opacity: 0.7;
+  }
+
+  .bug-reporter-flag-icon-inner {
+    @apply flex items-center justify-center w-full h-full relative;
+    z-index: 2;
+  }
+
+  .bug-reporter-flag-tooltip {
+    @apply fixed bg-gray-900 text-white py-2 px-3 rounded-lg shadow-lg z-50 text-xs max-w-xs;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(4px);
+    transition: all 0.3s ease;
+    transform: translate(-50%, -130%);
+    margin-top: -10px;
+    opacity: 1;
+    pointer-events: none;
+  }
+
+  .bug-reporter-flag-tooltip::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid rgba(17, 24, 39, 0.9);
+  }
+
+  .bug-reporter-flag-tooltip.visible {
+    opacity: 1;
+  }
+
+  .bug-reporter-form {
+    @apply fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50;
+    animation: fadeIn 0.3s ease-out;
+    backdrop-filter: blur(8px);
+    transition: opacity 0.4s ease-out, backdrop-filter 0.4s ease-out;
+  }
+
+  .bug-reporter-form.closing {
+    animation: fadeOut 0.4s ease-in forwards;
+    pointer-events: none;
+  }
+
+  .bug-reporter-form-content {
+    @apply bg-gray-900 p-6 rounded-xl w-96 shadow-2xl border border-gray-700;
+    animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1);
+    transform-origin: center;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.4s ease;
+  }
+  
+  .bug-reporter-form.closing .bug-reporter-form-content {
+    animation: slideDown 0.4s cubic-bezier(0.7, 0, 0.84, 0) forwards;
+    transform-origin: center;
+  }
+
+  .bug-reporter-form-content h3 {
+    @apply text-xl font-bold text-white mb-4 flex items-center;
+  }
+
+  .bug-reporter-form-content h3::before {
+    content: "🚩";
+    @apply mr-2 text-2xl;
+  }
+
+  .bug-reporter-element-info {
+    @apply bg-gray-800 bg-opacity-50 rounded-lg p-3 mb-4 text-sm text-gray-300 border border-gray-700 border-opacity-50;
+  }
+
+  .bug-reporter-element-type {
+    @apply inline-block bg-indigo-900 bg-opacity-30 text-indigo-300 px-2 py-1 rounded text-xs mr-2 font-mono;
+  }
+
+  .bug-reporter-element-text {
+    @apply text-gray-300 break-all;
+  }
+
+  .bug-reporter-form-content textarea {
+    @apply w-full h-28 p-3 mb-4 bg-gray-800 border border-gray-700 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200 text-white placeholder-gray-500;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+
+  .bug-reporter-form-content textarea:focus {
+    @apply border-indigo-500;
+  }
+
+  .bug-reporter-form-content .button-group {
+    @apply flex justify-end space-x-3;
+  }
+
+  .bug-reporter-form-content button {
+    @apply px-5 py-2.5 rounded-lg cursor-pointer transition-all duration-200 font-medium;
+  }
+
+  .bug-reporter-submit {
+    @apply bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700 shadow-md hover:shadow-lg;
+  }
+
+  .bug-reporter-cancel {
+    @apply bg-gray-800 text-gray-300 hover:bg-gray-700 border border-gray-700;
+  }
+
+  .bug-reporter-notification {
+    @apply fixed bottom-5 right-5 bg-gray-900 text-white py-3 px-4 rounded-lg shadow-lg z-50 flex items-center;
+    animation: slideUp 0.3s ease-out;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  }
+
+  .bug-reporter-notification::before {
+    content: "🚩";
+    @apply mr-2 text-lg;
+  }
+
+  .bug-reporter-tooltip {
+    @apply fixed bg-gray-900 text-white py-2 px-3 rounded shadow-lg z-50 text-xs max-w-xs;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(4px);
+    transition: all 0.2s ease;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(99, 102, 241, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+  }
+}
+
+@keyframes pulse-subtle {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Add a glowing effect to the flag icon */
+.bug-reporter-flag-icon::after {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #6366f1, #a855f7, #6366f1);
+  z-index: -1;
+  opacity: 0.7;
+  filter: blur(4px);
+}
+
+@keyframes glow {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
