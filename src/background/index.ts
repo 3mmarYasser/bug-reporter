@@ -21,6 +21,8 @@ const storeReportLocally = (report: Report): Promise<void> =>
   })
 
 const handleNewReport = async (report: Report): Promise<{ success: boolean; localOnly?: boolean }> => {
+  await storeReportLocally(report)
+
   try {
     const { error } = await supabase.from("bug_reports").insert([{
       url: report.url,
@@ -31,8 +33,6 @@ const handleNewReport = async (report: Report): Promise<{ success: boolean; loca
 
     if (error) throw error
 
-    await storeReportLocally(report)
-
     await chrome.runtime.sendMessage({
       type: "NEW_REPORT",
       report,
@@ -42,8 +42,7 @@ const handleNewReport = async (report: Report): Promise<{ success: boolean; loca
     return { success: true }
   } catch (error) {
     console.error("Error submitting report to Supabase:", error);
-    await storeReportLocally(report)
-
+    
     await chrome.runtime.sendMessage({
       type: "NEW_REPORT",
       report,
